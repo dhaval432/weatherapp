@@ -1,0 +1,107 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather App</title>
+  
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+    <style>
+      body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f8f8f8;
+            text-align: center;
+            padding: 50px;
+            margin: 0;
+        }
+
+        form {
+            margin: 20px 0;
+        }
+
+        input[type="text"] {
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            margin-right: 10px;
+            width: 200px;
+        }
+
+        button {
+            background-color: #4193f1;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #3f61eb;
+        }
+
+        .comparison-container {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+
+        .city-container {
+            background-color: #ececec;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(14, 13, 13, 0.2);
+            padding: 20px;
+            text-transform: capitalize;
+            margin: 20px;
+            width: calc(50% - 40px);
+            box-sizing: border-box;
+        }
+
+        @media (max-width: 767px) {
+            .city-container {
+                width: calc(100% - 40px);
+            }
+        }
+
+        @media (max-width: 480px) {
+            input[type="text"] {
+                width: 100%;
+                margin-right: 0;
+                margin-bottom: 10px;
+            }
+
+            button {
+                width: 100%;
+            }
+        }
+      
+    </style>
+    
+</head>
+<body>
+
+<form method="post">
+  {% csrf_token %}
+  <input type="text" name="city1" placeholder="Enter city 1" autocomplete="off">
+  <input type="text" name="city2" placeholder="Enter city 2" autocomplete="off">
+  <button type="submit">Submit</button>
+</form>
+
+<div class="comparison-container">
+  {% if weather_data1 %}
+    <div class="city-container">
+      {% include 'city_weather.html' with weather_data=weather_data1 %}
+    </div>
+  {% endif %}
+  {% if weather_data2 %}
+    <div class="city-container">
+      {% include 'city_weather.html' with weather_data=weather_data2 %}
+    </div>
+  {% endif %}
+</div>
+
+</body>
+</html>
